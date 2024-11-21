@@ -7,4 +7,6 @@ Business Intelligence project, that compares the progress of countries and their
 - https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?view=chart (GDP)
 - https://data.worldbank.org/indicator/NY.GNP.ATLS.CD?view=chart (GNI Atlas method)
 - https://data.worldbank.org/indicator/NY.GNS.ICTR.ZS?view=chart (Gross savings % of GDP)
-- https://data.worldbank.org/indicator/PA.NUS.PPP?view=chart (Global PPP conversion factor)
+- https://data.worldbank.org/indicator/PA.NUS.PPP?view=chart (Global PPP conversion factor)  
+
+I deleted empty rows and unnecessary columns from the data sources, so they are easier to process.
