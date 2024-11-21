@@ -2,7 +2,7 @@
 Business Intelligence project, that compares the progress of countries and their health/education indicators
 
 # Data sources
-- https://population.un.org/wpp/Download/Standard/MostUsed/ (Compact version)
+- https://population.un.org/wpp/Download/Standard/CSV/ (Demographic Indicators 1950-2100, medium)
 - https://data.worldbank.org/indicator/SE.PRM.NENR?view=chart (Education)
 - https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?view=chart (GDP)
 - https://data.worldbank.org/indicator/NY.GNP.ATLS.CD?view=chart (GNI Atlas method)
