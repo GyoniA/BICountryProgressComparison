@@ -1,3 +1,7 @@
+CREATE DATABASE PKK65QCountry;
+
+USE PKK65QCountry;
+
 CREATE TABLE UN_Indicators_Staging (
     Country NVARCHAR(255),
     Year INT,
@@ -18,7 +22,7 @@ CREATE TABLE WB_School_Enrollment_Staging (
 CREATE TABLE WB_GDP_Staging (
     Country NVARCHAR(255),
     Year INT,
-    GDP FLOAT, -- Gross domestic product (current US$)
+    GDP FLOAT -- Gross domestic product (current US$)
 );
 
 CREATE TABLE WB_GNI_Staging (
