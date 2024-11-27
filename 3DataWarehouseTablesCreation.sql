@@ -27,6 +27,7 @@ CREATE TABLE CountryStats_Fact (
     GNI FLOAT, -- Gross national income (Atlas method)
     Global_Savings FLOAT, -- Gross savings % of GDP
     Global_PPP FLOAT, -- Global PPP conversion factor
+    Economic_KPI FLOAT, -- Economic KPI (a key performance indicator calculated from the other fields)
     FOREIGN KEY (Country_ID) REFERENCES Country_Dim(Country_ID),
     FOREIGN KEY (Year_ID) REFERENCES Year_Dim(Year_ID)
 );
