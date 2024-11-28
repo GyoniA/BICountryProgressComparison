@@ -554,11 +554,6 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Filter Null rows 5</from>
-      <to>School Table output</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>School CSV file input</from>
       <to>Row normaliser to combine Years 5</to>
       <enabled>Y</enabled>
@@ -594,11 +589,6 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Filter Null rows 5</from>
-      <to>Select values</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Select values</from>
       <to>Stream lookup</to>
       <enabled>Y</enabled>
@@ -611,6 +601,21 @@
     <hop>
       <from>Filter Null rows 6</from>
       <to>Select values (relevant columns)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter Null rows 5</from>
+      <to>Filter columns</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter columns</from>
+      <to>School Table output</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter columns</from>
+      <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -1520,7 +1525,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <send_true_to>Select values</send_true_to>
+    <send_true_to>Filter columns</send_true_to>
     <send_false_to/>
     <compare>
       <condition>
@@ -1539,7 +1544,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>592</xloc>
+      <xloc>576</xloc>
       <yloc>432</yloc>
       <draw>Y</draw>
     </GUI>
@@ -6748,7 +6753,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>752</xloc>
+      <xloc>848</xloc>
       <yloc>432</yloc>
       <draw>Y</draw>
     </GUI>
@@ -6859,7 +6864,7 @@
     <name>Select values</name>
     <type>SelectValues</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -6886,7 +6891,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>592</xloc>
+      <xloc>624</xloc>
       <yloc>528</yloc>
       <draw>Y</draw>
     </GUI>
@@ -6923,6 +6928,50 @@
     <GUI>
       <xloc>624</xloc>
       <yloc>640</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filter columns</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>﻿Country Name</name>
+        <rename/>
+      </field>
+      <field>
+        <name>Country Code</name>
+        <rename/>
+      </field>
+      <field>
+        <name>Year</name>
+        <rename/>
+      </field>
+      <field>
+        <name>Value</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>720</xloc>
+      <yloc>432</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
