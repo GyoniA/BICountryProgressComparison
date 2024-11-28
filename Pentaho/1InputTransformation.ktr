@@ -584,13 +584,33 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Filter Out Country Groups rows</from>
-      <to>Select values (relevant columns)</to>
+      <from>Select values (relevant columns)</from>
+      <to>Demographic Table output</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values (relevant columns)</from>
-      <to>Demographic Table output</to>
+      <from>Filter Out Country Groups rows</from>
+      <to>Stream lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter Null rows 5</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>Stream lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Stream lookup</from>
+      <to>Filter Null rows 6</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter Null rows 6</from>
+      <to>Select values (relevant columns)</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -1269,7 +1289,7 @@
     </remotesteps>
     <GUI>
       <xloc>160</xloc>
-      <yloc>528</yloc>
+      <yloc>640</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1303,10 +1323,6 @@
     <return_field/>
     <fields>
       <field>
-        <column_name>Country</column_name>
-        <stream_name>Location</stream_name>
-      </field>
-      <field>
         <column_name>Year</column_name>
         <stream_name>Time</stream_name>
       </field>
@@ -1334,6 +1350,10 @@
         <column_name>LifeExpectancy</column_name>
         <stream_name>LEx</stream_name>
       </field>
+      <field>
+        <column_name>Country</column_name>
+        <stream_name>﻿Country Name</stream_name>
+      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -1344,8 +1364,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>752</xloc>
-      <yloc>528</yloc>
+      <xloc>992</xloc>
+      <yloc>640</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1500,7 +1520,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <send_true_to/>
+    <send_true_to>Select values</send_true_to>
     <send_false_to/>
     <compare>
       <condition>
@@ -1535,7 +1555,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <send_true_to>Select values (relevant columns)</send_true_to>
+    <send_true_to>Stream lookup</send_true_to>
     <send_false_to/>
     <compare>
       <condition>
@@ -1555,7 +1575,7 @@
     </remotesteps>
     <GUI>
       <xloc>352</xloc>
-      <yloc>528</yloc>
+      <yloc>640</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -6746,28 +6766,36 @@
     </partitioning>
     <fields>
       <field>
-        <name>Location</name>
-      </field>
-      <field>
         <name>Time</name>
+        <rename/>
       </field>
       <field>
         <name>TPopulation1July</name>
+        <rename/>
       </field>
       <field>
         <name>PopDensity</name>
+        <rename/>
       </field>
       <field>
         <name>PopSexRatio</name>
+        <rename/>
       </field>
       <field>
         <name>MedianAgePop</name>
+        <rename/>
       </field>
       <field>
         <name>NRR</name>
+        <rename/>
       </field>
       <field>
         <name>LEx</name>
+        <rename/>
+      </field>
+      <field>
+        <name>﻿Country Name</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -6780,8 +6808,121 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>560</xloc>
+      <xloc>800</xloc>
+      <yloc>640</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Stream lookup</name>
+    <type>StreamLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <from>Select values</from>
+    <input_sorted>N</input_sorted>
+    <preserve_memory>Y</preserve_memory>
+    <sorted_list>N</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>﻿ISO3_code</name>
+        <field>﻿ISO3_code</field>
+      </key>
+      <value>
+        <name>﻿Country Name</name>
+        <rename>﻿Country Name</rename>
+        <default/>
+        <type>String</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>512</xloc>
+      <yloc>640</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>﻿Country Name</name>
+        <rename/>
+      </field>
+      <field>
+        <name>Country Code</name>
+        <rename>﻿ISO3_code</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>592</xloc>
       <yloc>528</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filter Null rows 6</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Select values (relevant columns)</send_true_to>
+    <send_false_to/>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>﻿Country Name</leftvalue>
+        <function>IS NOT NULL</function>
+        <rightvalue/>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>624</xloc>
+      <yloc>640</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
