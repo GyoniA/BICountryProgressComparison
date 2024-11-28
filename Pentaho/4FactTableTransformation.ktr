@@ -593,12 +593,12 @@
 var Norm_GDP = (GDP &amp;&amp; Max_GDP) ? GDP / Max_GDP : 0;
 var Norm_GNI = (GNI &amp;&amp; Max_GNI) ? GNI / Max_GNI : 0;
 var Norm_Savings = (Global_Savings &amp;&amp; Max_Global_Savings) ? Global_Savings / Max_Global_Savings : 0;
-var Norm_PPP = (Global_PPP &amp;&amp; Max_Global_PPP) ? Max_Global_PPP / Global_PPP : 0;  // Assume ideal PPP is inversely proportional
+var Norm_PPP = (Global_PPP &amp;&amp; Max_Global_PPP) ? Global_PPP / Max_Global_PPP : 0;  // Assume ideal PPP is inversely proportional
 
 // Calculate the weighted sum for the KPI
-var KPI = (0.3 * Norm_GDP) + (0.3 * Norm_GNI) + (0.2 * Norm_Savings) + (0.2 * Norm_PPP);
+var KPI = (0.3 * Norm_GDP) + (0.3 * Norm_GNI) + (0.3 * Norm_Savings) + (0.1 * Norm_PPP);
 
-// Scale the KPI to a 0–100 range
+// Scale the KPI to a 0-100 range
 var KPI_Scaled = KPI * 100;
 
 // Output the calculated KPI as a new column
@@ -626,7 +626,7 @@ KPI_Scaled;
     </remotesteps>
     <GUI>
       <xloc>576</xloc>
-      <yloc>96</yloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -774,6 +774,63 @@ KPI_Scaled;
     </remotesteps>
     <GUI>
       <xloc>1040</xloc>
+      <yloc>208</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Memory group by Max Values</name>
+    <type>MemoryGroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <give_back_row>N</give_back_row>
+    <group>
+      <field>
+        <name>Year</name>
+      </field>
+    </group>
+    <fields>
+      <field>
+        <aggregate>Max_GDP</aggregate>
+        <subject>GDP</subject>
+        <type>MAX</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>Max_GNI</aggregate>
+        <subject>GNI</subject>
+        <type>MAX</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>Max_Global_Savings</aggregate>
+        <subject>Global_Savings</subject>
+        <type>MAX</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>Max_Global_PPP</aggregate>
+        <subject>Global_PPP</subject>
+        <type>MAX</type>
+        <valuefield/>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>368</xloc>
       <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
@@ -947,6 +1004,109 @@ KPI_Scaled;
     </remotesteps>
     <GUI>
       <xloc>256</xloc>
+      <yloc>96</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>Year</name>
+      </field>
+      <field>
+        <name>GDP</name>
+      </field>
+      <field>
+        <name>GNI</name>
+      </field>
+      <field>
+        <name>Global_Savings</name>
+      </field>
+      <field>
+        <name>Global_PPP</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>192</xloc>
+      <yloc>208</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Stream lookup</name>
+    <type>StreamLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <from>Memory group by Max Values</from>
+    <input_sorted>N</input_sorted>
+    <preserve_memory>Y</preserve_memory>
+    <sorted_list>Y</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>Year</name>
+        <field>Year</field>
+      </key>
+      <value>
+        <name>Max_GDP</name>
+        <rename>Max_GDP</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>Max_GNI</name>
+        <rename>Max_GNI</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>Max_Global_Savings</name>
+        <rename>Max_Global_Savings</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+      <value>
+        <name>Max_Global_PPP</name>
+        <rename>Max_Global_PPP</rename>
+        <default/>
+        <type>Number</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>368</xloc>
       <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1168,6 +1328,36 @@ KPI_Scaled;
     <GUI>
       <xloc>48</xloc>
       <yloc>16</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unique rows</name>
+    <type>Unique</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field/>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>      </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>464</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1414,201 +1604,6 @@ KPI_Scaled;
     <GUI>
       <xloc>896</xloc>
       <yloc>208</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Stream lookup</name>
-    <type>StreamLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <from>Memory group by Max Values</from>
-    <input_sorted>N</input_sorted>
-    <preserve_memory>Y</preserve_memory>
-    <sorted_list>Y</sorted_list>
-    <integer_pair>N</integer_pair>
-    <lookup>
-      <key>
-        <name>Year</name>
-        <field>Year</field>
-      </key>
-      <value>
-        <name>Max_GDP</name>
-        <rename>Max_GDP</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>Max_GNI</name>
-        <rename>Max_GNI</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>Max_Global_Savings</name>
-        <rename>Max_Global_Savings</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-      <value>
-        <name>Max_Global_PPP</name>
-        <rename>Max_Global_PPP</rename>
-        <default/>
-        <type>Number</type>
-      </value>
-    </lookup>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>368</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>Year</name>
-        <rename/>
-      </field>
-      <field>
-        <name>GDP</name>
-        <rename/>
-      </field>
-      <field>
-        <name>GNI</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Global_Savings</name>
-        <rename/>
-      </field>
-      <field>
-        <name>Global_PPP</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>192</xloc>
-      <yloc>208</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Memory group by Max Values</name>
-    <type>MemoryGroupBy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <give_back_row>N</give_back_row>
-    <group>
-      <field>
-        <name>Year</name>
-      </field>
-    </group>
-    <fields>
-      <field>
-        <aggregate>Max_GDP</aggregate>
-        <subject>GDP</subject>
-        <type>MAX</type>
-        <valuefield/>
-      </field>
-      <field>
-        <aggregate>Max_GNI</aggregate>
-        <subject>GNI</subject>
-        <type>MAX</type>
-        <valuefield/>
-      </field>
-      <field>
-        <aggregate>Max_Global_Savings</aggregate>
-        <subject>Global_Savings</subject>
-        <type>MAX</type>
-        <valuefield/>
-      </field>
-      <field>
-        <aggregate>Max_Global_PPP</aggregate>
-        <subject>Global_PPP</subject>
-        <type>MAX</type>
-        <valuefield/>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>368</xloc>
-      <yloc>208</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Unique rows</name>
-    <type>Unique</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <count_rows>N</count_rows>
-    <count_field/>
-    <reject_duplicate_row>N</reject_duplicate_row>
-    <error_description/>
-    <fields>      </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>464</xloc>
-      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
