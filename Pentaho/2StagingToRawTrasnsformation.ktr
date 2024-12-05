@@ -802,7 +802,7 @@
       <schema_name/>
     </partitioning>
     <connection>MySQL</connection>
-    <sql>SELECT * FROM WB_GDP_Staging WHERE Year >= 1990 AND YEAR &lt;= 2015;</sql>
+    <sql>SELECT * FROM WB_GDP_Staging WHERE Year >= 1990;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -906,7 +906,7 @@
       <schema_name/>
     </partitioning>
     <connection>MySQL</connection>
-    <sql>SELECT * FROM WB_GNI_Staging WHERE Year >= 1990 AND YEAR &lt;= 2015;</sql>
+    <sql>SELECT * FROM WB_GNI_Staging WHERE Year >= 1990;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -1010,7 +1010,7 @@
       <schema_name/>
     </partitioning>
     <connection>MySQL</connection>
-    <sql>SELECT * FROM WB_Global_Savings_Staging WHERE Year >= 1990 AND YEAR &lt;= 2015;</sql>
+    <sql>SELECT * FROM WB_Global_Savings_Staging WHERE Year >= 1990;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -1114,7 +1114,7 @@
       <schema_name/>
     </partitioning>
     <connection>MySQL</connection>
-    <sql>SELECT * FROM WB_Global_PPP_Staging WHERE Year >= 1990 AND YEAR &lt;= 2015;</sql>
+    <sql>SELECT * FROM WB_Global_PPP_Staging WHERE Year >= 1990;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -1218,7 +1218,7 @@
       <schema_name/>
     </partitioning>
     <connection>MySQL</connection>
-    <sql>SELECT * FROM WB_School_Enrollment_Staging WHERE Year >= 1990 AND YEAR &lt;= 2015;</sql>
+    <sql>SELECT * FROM WB_School_Enrollment_Staging WHERE Year >= 1990;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -1582,7 +1582,7 @@
       <schema_name/>
     </partitioning>
     <connection>MySQL</connection>
-    <sql>SELECT * FROM UN_Indicators_Staging WHERE Year >= 1990 AND YEAR &lt;= 2015;</sql>
+    <sql>SELECT * FROM UN_Indicators_Staging WHERE Year >= 1990;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
